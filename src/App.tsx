@@ -15,8 +15,12 @@ function App() {
                 <h1>{welcome.greeting} {welcome.name}!</h1>
                 <label htmlFor='search'>Search: </label>
                 <input id="search" type="text" placeholder="Enter text here" onChange={(e) => setSearchQuery(e.target.value)} />
-                <p>Search query state: {searchQuery}</p>
             </div>
+            <ul>
+                { searchQuery.split('').map((char, index) => (
+                    <li key={index}>{char}</li>
+                ))}
+            </ul>
         </>
     )
 }
