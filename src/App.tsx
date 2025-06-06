@@ -20,7 +20,7 @@ const devList = [
     },
 ];
 
-function App() {
+const App = () => {
     const [searchQuery, setSearchQuery] = useState<string>("");
 
     return (
@@ -42,42 +42,34 @@ type SearchProps = {
     setSearchQuery: React.Dispatch<React.SetStateAction<string>>;
 };
 
-function Search({ setSearchQuery }: SearchProps) {
-    const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSearchQuery(event.target.value);
-    }
+const Search = ({ setSearchQuery }: SearchProps) => (
+    <div>
+        <input
+            type="text"
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search..."
+        />
+    </div>
+);
 
-    return (
-        <div>
-            <input
-                type="text"
-                onChange={handleSearch}
-                placeholder="Search..."
-            />
-        </div>
-    )
-}
+const List = ({ searchQuery }: { searchQuery: string }) => (
+    <ul>
+        {devList.map((item) => {
+            const { title, url, author, num_comments, points, objectID } = item;
+            const searchTerm = searchQuery.toLowerCase();
+            const isMatch = title.toLowerCase().includes(searchTerm) || author.toLowerCase().includes(searchTerm);
 
-function List({ searchQuery }: { searchQuery: string }) {
-    return (
-        <ul>
-            {devList.map((item) => {
-                const { title, url, author, num_comments, points, objectID } = item;
-                const searchTerm = searchQuery.toLowerCase();
-                const isMatch = title.toLowerCase().includes(searchTerm) || author.toLowerCase().includes(searchTerm);
-
-                return (
-                    <li key={objectID} style={{ display: isMatch ? 'block' : 'none' }}>
-                        <h2>{title}</h2>
-                        <p>Author: {author}</p>
-                        <p>Comments: {num_comments}</p>
-                        <p>Points: {points}</p>
-                        <a href={url} target="_blank" rel="noopener noreferrer">Read more</a>
-                    </li>
-                )
-            })}
-        </ul>
-    )
-}
+            return (
+                <li key={objectID} style={{ display: isMatch ? 'block' : 'none' }}>
+                    <h2>{title}</h2>
+                    <p>Author: {author}</p>
+                    <p>Comments: {num_comments}</p>
+                    <p>Points: {points}</p>
+                    <a href={url} target="_blank" rel="noopener noreferrer">Read more</a>
+                </li>
+            )
+        })}
+    </ul>
+);
 
 export default App
