@@ -47,6 +47,7 @@ const Search = ({ setSearchQuery }: SearchProps) => (
         <input
             type="text"
             onChange={(e) => setSearchQuery(e.target.value)}
+            onBlur={(e) => console.log('Search blurred:', e.target.value)}
             placeholder="Search..."
         />
     </div>
