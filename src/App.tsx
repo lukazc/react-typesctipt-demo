@@ -1,27 +1,36 @@
 import { useState } from 'react'
 import './App.css'
 
-const devList = [
-    {
-        title: 'React',
-        url: 'https://reactjs.org/',
-        author: 'Jordan Walke',
-        num_comments: 3,
-        points: 4,
-        objectID: 0,
-    },
-    {
-        title: 'Redux',
-        url: 'https://redux.js.org/',
-        author: 'Dan Abramov, Andrew Clark',
-        num_comments: 2,
-        points: 5,
-        objectID: 1,
-    },
-];
+type Dev = {
+    objectID: number;
+    url: string;
+    title: string;
+    author: string;
+    num_comments: number;
+    points: number;
+};
 
 const App = () => {
     const [searchQuery, setSearchQuery] = useState<string>("");
+
+    const devList: Dev[] = [
+        {
+            title: 'React',
+            url: 'https://reactjs.org/',
+            author: 'Jordan Walke',
+            num_comments: 3,
+            points: 4,
+            objectID: 0,
+        },
+        {
+            title: 'Redux',
+            url: 'https://redux.js.org/',
+            author: 'Dan Abramov, Andrew Clark',
+            num_comments: 2,
+            points: 5,
+            objectID: 1,
+        },
+    ];
 
     return (
         <>
@@ -32,7 +41,7 @@ const App = () => {
 
             <hr />
 
-            <List searchQuery={searchQuery} />
+            <List searchQuery={searchQuery} list={devList} />
         </>
     )
 }
@@ -53,24 +62,34 @@ const Search = ({ setSearchQuery }: SearchProps) => (
     </div>
 );
 
-const List = ({ searchQuery }: { searchQuery: string }) => (
+const List = ({ searchQuery, list }: { searchQuery: string, list: Dev[] }) => (
     <ul>
-        {devList.map((item) => {
-            const { title, url, author, num_comments, points, objectID } = item;
+        {list.map((item) => {
+            const { title, author, objectID } = item;
             const searchTerm = searchQuery.toLowerCase();
             const isMatch = title.toLowerCase().includes(searchTerm) || author.toLowerCase().includes(searchTerm);
 
-            return (
-                <li key={objectID} style={{ display: isMatch ? 'block' : 'none' }}>
-                    <h2>{title}</h2>
-                    <p>Author: {author}</p>
-                    <p>Comments: {num_comments}</p>
-                    <p>Points: {points}</p>
-                    <a href={url} target="_blank" rel="noopener noreferrer">Read more</a>
-                </li>
-            )
+            if (isMatch) {
+                return (
+                    <ListItem key={objectID} item={item} />
+                )
+            }
         })}
     </ul>
 );
+
+const ListItem = ({ item }: { item: Dev }) => {
+    const { title, url, author, num_comments, points, objectID } = item;
+
+    return (
+        <li key={objectID}>
+            <h2>{title}</h2>
+            <p>Author: {author}</p>
+            <p>Comments: {num_comments}</p>
+            <p>Points: {points}</p>
+            <a href={url} target="_blank" rel="noopener noreferrer">Read more</a>
+        </li>
+    );
+};
 
 export default App
