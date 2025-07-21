@@ -32,6 +32,14 @@ const App = () => {
         },
     ];
 
+    const searchedList = devList.filter(item => {
+        const searchTerm = searchQuery.toLowerCase();
+        return (
+            item.title.toLowerCase().includes(searchTerm) ||
+            item.author.toLowerCase().includes(searchTerm)
+        );
+    });
+
     return (
         <>
             <div>
@@ -41,7 +49,7 @@ const App = () => {
 
             <hr />
 
-            <List searchQuery={searchQuery} list={devList} />
+            <List list={searchedList} />
         </>
     )
 }
@@ -62,27 +70,23 @@ const Search = ({ setSearchQuery }: SearchProps) => (
     </div>
 );
 
-const List = ({ searchQuery, list }: { searchQuery: string, list: Dev[] }) => (
+const List = ({ list }: { list: Dev[] }) => (
     <ul>
         {list.map((item) => {
-            const { title, author, objectID } = item;
-            const searchTerm = searchQuery.toLowerCase();
-            const isMatch = title.toLowerCase().includes(searchTerm) || author.toLowerCase().includes(searchTerm);
+            const { objectID } = item;
 
-            if (isMatch) {
-                return (
-                    <ListItem key={objectID} item={item} />
-                )
-            }
+            return (
+                <ListItem key={objectID} item={item} />
+            )
         })}
     </ul>
 );
 
 const ListItem = ({ item }: { item: Dev }) => {
-    const { title, url, author, num_comments, points, objectID } = item;
+    const { title, url, author, num_comments, points } = item;
 
     return (
-        <li key={objectID}>
+        <li>
             <h2>{title}</h2>
             <p>Author: {author}</p>
             <p>Comments: {num_comments}</p>
