@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
 
 type Dev = {
@@ -11,7 +11,14 @@ type Dev = {
 };
 
 const App = () => {
-    const [searchQuery, setSearchQuery] = useState<string>("");
+    const [searchQuery, setSearchQuery] = useState<string>(
+        localStorage.getItem('searchQuery') || ""
+    );
+
+    useEffect(() => {
+        console.log('Search query updated:', searchQuery);
+        localStorage.setItem('searchQuery', searchQuery);
+    }, [searchQuery]);
 
     const devList: Dev[] = [
         {
