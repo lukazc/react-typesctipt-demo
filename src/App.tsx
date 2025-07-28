@@ -84,8 +84,9 @@ const List = ({ list }: { list: Dev[] }) => (
     </ul>
 );
 
-const ListItem = ({ item }: { item: Dev }) => {
-    const { title, url, author, num_comments, points } = item;
+const ListItem = ({ item: {
+    title, url, author, num_comments, points
+} }: { item: Dev }) => {
 
     return (
         <li>
