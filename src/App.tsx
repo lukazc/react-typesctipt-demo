@@ -44,7 +44,7 @@ const App = () => {
         <>
             <div>
                 <h1>Hacker list</h1>
-                <Search setSearchQuery={setSearchQuery} />
+                <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
             </div>
 
             <hr />
@@ -56,13 +56,15 @@ const App = () => {
 
 // Update Search to accept setSearchQuery as a prop
 type SearchProps = {
+    searchQuery: string;
     setSearchQuery: React.Dispatch<React.SetStateAction<string>>;
 };
 
-const Search = ({ setSearchQuery }: SearchProps) => (
+const Search = ({ searchQuery, setSearchQuery }: SearchProps) => (
     <div>
         <input
             type="text"
+            value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             onBlur={(e) => console.log('Search blurred:', e.target.value)}
             placeholder="Search..."
