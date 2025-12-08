@@ -57,7 +57,12 @@ const App = () => {
         <>
             <div>
                 <h1>Hacker list</h1>
-                <LabeledInput id='search' value={searchQuery} onInputChange={(e) => setSearchQuery(e.target.value)}>
+                <LabeledInput
+                    id='search'
+                    value={searchQuery}
+                    onInputChange={(e) => setSearchQuery(e.target.value)}
+                    isFocused={true}
+                >
                     <strong>Search:</strong>
                 </LabeledInput>
             </div>
@@ -75,6 +80,7 @@ type LabeledInputProps = {
     type?: string;
     value: string;
     onInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    isFocused?: boolean;
     children?: React.ReactNode;
 };
 
@@ -83,6 +89,7 @@ const LabeledInput = ({
     type = 'text',
     value,
     onInputChange,
+    isFocused = false,
     children
 }: LabeledInputProps) => (
     <>
@@ -93,7 +100,8 @@ const LabeledInput = ({
             type={type}
             value={value}
             onChange={onInputChange}
-            autoFocus
+            autoFocus={isFocused}
+            onFocus={(e) => console.log('Search focused:', e.target.value)}
             onBlur={(e) => console.log('Search blurred:', e.target.value)}
             placeholder="Search..."
         />
