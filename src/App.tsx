@@ -10,15 +10,21 @@ type Dev = {
     points: number;
 };
 
-const App = () => {
-    const [searchQuery, setSearchQuery] = useState<string>(
-        localStorage.getItem('searchQuery') || ""
-    );
+const useStorageState = (key: string, initialValue: string) => {
+    const [state, setState] = useState<string>(() => {
+        const storedValue = localStorage.getItem(key);
+        return storedValue ? storedValue : initialValue;
+    });
 
     useEffect(() => {
-        console.log('Search query updated:', searchQuery);
-        localStorage.setItem('searchQuery', searchQuery);
-    }, [searchQuery]);
+        localStorage.setItem(key, state);
+    }, [key, state]);
+
+    return [state, setState] as const;
+}
+
+const App = () => {
+    const [searchQuery, setSearchQuery] = useStorageState('searchQuery', '');
 
     const devList: Dev[] = [
         {
