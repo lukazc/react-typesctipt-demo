@@ -57,7 +57,9 @@ const App = () => {
         <>
             <div>
                 <h1>Hacker list</h1>
-                <LabeledInput id='search' label='Search:' value={searchQuery} onInputChange={(e) => setSearchQuery(e.target.value)} />
+                <LabeledInput id='search' value={searchQuery} onInputChange={(e) => setSearchQuery(e.target.value)}>
+                    <strong>Search:</strong>
+                </LabeledInput>
             </div>
 
             <hr />
@@ -70,27 +72,28 @@ const App = () => {
 // Update Search to accept setSearchQuery as a prop
 type LabeledInputProps = {
     id: string;
-    label: string;
     type?: string;
     value: string;
     onInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    children?: React.ReactNode;
 };
 
 const LabeledInput = ({
     id,
-    label,
     type = 'text',
     value,
-    onInputChange
+    onInputChange,
+    children
 }: LabeledInputProps) => (
     <>
-        <label htmlFor={id}>{label}</label>
+        <label htmlFor={id}>{children}</label>
         &nbsp;
         <input
             id={id}
             type={type}
             value={value}
             onChange={onInputChange}
+            autoFocus
             onBlur={(e) => console.log('Search blurred:', e.target.value)}
             placeholder="Search..."
         />
