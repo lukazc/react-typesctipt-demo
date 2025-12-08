@@ -74,15 +74,17 @@ type SearchProps = {
 };
 
 const Search = ({ searchQuery, setSearchQuery }: SearchProps) => (
-    <div>
+    <>
+        <label htmlFor="search">Search: </label>
         <input
+            id="search"
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             onBlur={(e) => console.log('Search blurred:', e.target.value)}
             placeholder="Search..."
         />
-    </div>
+    </>
 );
 
 const List = ({ list }: { list: Dev[] }) => (
